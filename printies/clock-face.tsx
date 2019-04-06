@@ -2,11 +2,8 @@ import * as React from 'react';
 
 const hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-export interface ClockFaceProps {
-}
-
 export function thusClockFace(radius: number) {
-    return class ClockFace extends React.Component<ClockFaceProps> {
+    return class ClockFace extends React.Component<{}> {
         render() {
             const digitSize = radius * 0.25;
             const innerRadius = radius - digitSize + digitSize * 0.2;
