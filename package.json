@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@types/react": "16.8.12",
-    "@types/react-dom": "16.8.3",
-    "react": "^6.8.6",
+    "@types/react": "16.8.0",
+    "@types/react-dom": "16.8.0",
+    "react": "16.8.6",
     "react-dom": "16.8.6",
     "requirejs": "2.3.6"
   },
