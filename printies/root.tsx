@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Arithmetic } from './arithmetic';
-import { Columner } from './columner';
+import { Columnizer } from './columnizer';
 import { to } from './core';
 import { NumberPickerConcern, thusNumberPicker } from './number-picker';
 
@@ -17,9 +17,9 @@ class App extends React.Component<{}, State> {
         const { columnCount } = this.state;
         return <>
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
-            <Columner columns={columnCount} >
+            <Columnizer columns={columnCount} >
                 <Arithmetic />
-            </Columner>
+            </Columnizer>
         </>;
     }
 

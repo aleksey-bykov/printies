@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-export interface ColumnerProps {
+export interface ColumnizerProps {
     columns: number;
 }
-export class Columner extends React.Component<ColumnerProps> {
+export class Columnizer extends React.Component<ColumnizerProps> {
     render() {
         const { children, columns } = this.props;
         return <div style={{ columnCount: columns }}>{children}</div>
