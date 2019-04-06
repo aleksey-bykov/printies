@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { thusClock } from './clock';
 
-const Clock = thusClock(50);
+const Clock = thusClock(50, 0.5, 0.65);
 class App extends React.Component {
     render() {
         return <svg>
