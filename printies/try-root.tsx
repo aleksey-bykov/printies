@@ -1,15 +1,17 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { ClockArrows } from './clock-arrows';
-import { ClockFace } from "./clock-face";
+import { thusClockArrows } from './clock-arrows';
+import { thusClockFace } from "./clock-face";
 
+const radius = 50;
+const ClockFace = thusClockFace(radius);
+const ClockArrows = thusClockArrows(radius, 0.5, 0.75);
 class App extends React.Component {
     render() {
-        const r = 50;
         return <svg>
             <g transform="translate(100, 100)">
-                <ClockFace radius={r} />
-                <ClockArrows radius={r} shortAt={2} shortVsR={0.50} longAt={15} longVsR={0.70} />
+                <ClockFace />
+                <ClockArrows shortAt={2} longAt={15} />
             </g>
         </svg>;
     }

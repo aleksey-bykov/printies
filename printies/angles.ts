@@ -1,6 +1,5 @@
 export function hourToDegrees(hour: number): number {
     const result = -90 + hour * 360 / 12;
-    console.log(hour, result);
     return result;
 }
 
