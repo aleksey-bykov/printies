@@ -5,7 +5,7 @@
             "type": "shell",
             "group": "build",
             "label": "build-watch",
-            "command": "cmd /C build-watch.bat",
+            "command": "cmd /C build-client-watch.bat",
             "problemMatcher": "$tsc-watch"
         }
     ]
