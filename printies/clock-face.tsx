@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-export function thusClockFace(radius: number) {
+export function thusClockFace(radius: number, dotRadius: number) {
     return class ClockFace extends React.Component {
         render() {
             const digitSize = radius * 0.25;
@@ -16,12 +16,12 @@ export function thusClockFace(radius: number) {
                     const textX = innerRadius * Math.cos(alpha);
                     const textY = innerRadius * Math.sin(alpha) + digitSize / 2.8;
                     return <React.Fragment key={hour}>
-                        <circle cx={x} cy={y} r={2} />
+                        <circle cx={x} cy={y} r={dotRadius} />
                         <text x={textX} y={textY} fontSize={digitSize + 'px'} textAnchor="middle">{hour}</text>
                     </React.Fragment>;
                 })}
                 <circle r={radius} className="clock-circle" />
-                <circle r={2} className="clock-middle-dot" />
+                <circle r={dotRadius} className="clock-middle-dot" />
             </>;
         }
     };
