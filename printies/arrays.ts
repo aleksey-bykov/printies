@@ -5,3 +5,5 @@ export function times(count: number): number[] {
     }
     return result;
 }
+
+export const becauseNoValues = 'No values.';
