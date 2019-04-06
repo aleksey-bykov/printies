@@ -5,7 +5,7 @@ import { thusClockFace } from "./clock-face";
 
 const radius = 50;
 const ClockFace = thusClockFace(radius);
-const ClockArrows = thusClockArrows(radius, 0.5, 0.75);
+const ClockArrows = thusClockArrows(radius, 0.5, 0.70);
 class App extends React.Component {
     render() {
         return <svg>
