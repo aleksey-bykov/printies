@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
+import { Arithmetic } from './arithmetic';
 
 class App extends React.Component {
     render() {
-        return <div>Hi</div>;
+        return <Arithmetic/>;
     }
 }
 
