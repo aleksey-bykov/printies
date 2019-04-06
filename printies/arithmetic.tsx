@@ -10,7 +10,7 @@ const operations = ['+' as const, '-' as const];
 
 export class Arithmetic extends React.Component {
     render() {
-        return times(10).map(index => {
+        return times(20).map(index => {
             const one = random.darePickOne(digits); 
             const another = random.darePickOne(digits);
             const operation = random.darePickOne(operations);
