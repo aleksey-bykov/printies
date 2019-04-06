@@ -6,5 +6,7 @@
         "module": "amd",
         "target": "es6",
         "rootDir": "./",
+        "jsx": "react",
+        "moduleResolution": "node"
     }
 }
