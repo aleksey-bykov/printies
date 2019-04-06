@@ -1,21 +1,20 @@
 import * as React from 'react';
-import { degreeToRadi, hourToDegrees, minuteToDegrees } from './angles';
-
-export type HourAt = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
-export type MinuteAt = 0 | 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50 | 55;
+import { degreeToRadi, HourAt, hourToDegrees, MinuteAt, minuteToDegrees } from './angles';
 
 export interface ClockArrowsProps {
     shortAt: HourAt;
     longAt: MinuteAt;
+    areHoursSticky: boolean;
 }
 
 export function thusClockArrows(radius: number, shortVsR: number, longVsR: number) {
     return class ClockArrows extends React.Component<ClockArrowsProps> {
         render() {
-            const { shortAt, longAt } = this.props;
+            const { shortAt, longAt, areHoursSticky } = this.props;
 
             const shortRadius = radius * shortVsR;
-            const shortAlpha = degreeToRadi(hourToDegrees(shortAt));
+            const shortDelta = areHoursSticky ? 0 : longAt / 60;
+            const shortAlpha = degreeToRadi(hourToDegrees(shortAt + shortDelta));
             const shortX = Math.cos(shortAlpha) * shortRadius;
             const shortY = Math.sin(shortAlpha) * shortRadius;
 
@@ -25,8 +24,8 @@ export function thusClockArrows(radius: number, shortVsR: number, longVsR: numbe
             const longY = Math.sin(longAlpha) * longRadius;
 
             return <>
-                <line className="clock-arrow as-big" x1={0} y1={0} x2={shortX} y2={shortY} />
-                <line className="clock-arrow as-small" x1={0} y1={0} x2={longX} y2={longY} />
+                <line className="clock-arrow as-big" x2={shortX} y2={shortY} />
+                <line className="clock-arrow as-small" x2={longX} y2={longY} />
             </>;
         }
     }

@@ -11,7 +11,7 @@ class App extends React.Component {
         return <svg>
             <g transform="translate(100, 100)">
                 <ClockFace />
-                <ClockArrows shortAt={2} longAt={15} />
+                <ClockArrows areHoursSticky={false} shortAt={2} longAt={55} />
             </g>
         </svg>;
     }
