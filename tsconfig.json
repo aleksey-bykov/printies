@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "outDir": "./scripts",
+        "lib": ["es6", "dom"],
+        "types": [],
+        "module": "amd",
+        "target": "es6",
+        "rootDir": "./",
+    }
+}
