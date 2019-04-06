@@ -1,4 +1,3 @@
-import { times } from "./arrays";
 import * as React from 'react';
 import { Randomizer } from "./random";
 import { maxOf2, minOf2, broke } from "./core";
@@ -9,7 +8,11 @@ const random = new Randomizer(1);
 const digits = [0, 1, 2, 4, 5, 6, 7, 8, 9];
 const operations = ['+' as const, '-' as const];
 
-export class Arithmetic extends React.Component {
+export interface ArithmeticProps {
+}
+
+export class Arithmetic extends React.Component<ArithmeticProps> {
+    
     render() {
         return everying()
             .instead(_ => {
@@ -32,9 +35,9 @@ export class Arithmetic extends React.Component {
                 return [left, operation, right, left + operation + right] as const;
             })
             .onlyUniqueAs(([, , , key]) => key)
-            .atMost(20)
+            .atMost(100)
             .instead(([left, operation, right, key]) => {
-                return <div key={key} className="challenge">{left} {operation} {right}</div>;
+                return <div key={key} className="challenge">{left} {operation} {right} = __</div>;
             })
             .toArray();
     }

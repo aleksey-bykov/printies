@@ -13,3 +13,4 @@ export function minOf2(left: number, right: number): number {
 export function broke(_: never): never {
     return fail('This cannot be.');
 }
+export function to<T>(value: T): T { return value; }

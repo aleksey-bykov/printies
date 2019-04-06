@@ -1,0 +1,1 @@
+type Regarding<Concern> = (concern: Concern) => void;
