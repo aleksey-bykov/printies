@@ -4,5 +4,9 @@
         "node_modules": true,
         "scripts": true,
         "**/*.css": true
-    }
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "typescript.preferences.renameShorthandProperties": false,
 }
