@@ -9,6 +9,9 @@
         "jsx": "react",
         "moduleResolution": "node",
         "strictNullChecks": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedParameters": true,
     }
 }

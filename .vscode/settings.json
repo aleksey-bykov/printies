@@ -1,1 +1,8 @@
-{}
+{
+    "files.exclude": {
+        "**/.git": true,
+        "node_modules": true,
+        "scripts": true,
+        "**/*.css": true
+    }
+}
