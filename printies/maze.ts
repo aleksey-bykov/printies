@@ -55,35 +55,21 @@ export function toDefaultMazeOptions(input: number): MazeOptions {
         input
     };
 }
-export type MazeAlgorithmConstructor = new (maze: Maze, options: MazeOptions) => MazeAlgorithm
 export type WhenMazeUpdated = (maze: Maze, x: number, y: number) => void;
 export class Maze {
     public rand: MazeRandomizer;
-    public algorithm: MazeAlgorithm;
     public isWeave = false;
 
     constructor(
         public width: number,
         public height: number,
-        Algorithm: MazeAlgorithmConstructor,
         options: MazeOptions,
         public grid = new MazeGrid(width, height),
     ) {
         this.rand = new MazeRandomizer(options.seed);
-        this.algorithm = new Algorithm(this, options);
         this.isWeave = options.weave;
     }
 
-    onUpdate(fn: WhenMazeUpdated) { return this.algorithm.onUpdate(fn); }
-    onEvent(fn: WhenMazeUpdated) { return this.algorithm.onEvent(fn); }
-
-    generate() {
-        while (true) {
-            if (!this.step()) { break; }
-        }
-    }
-
-    step() { return this.algorithm.step(); }
 
     isEast(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.E); }
     isWest(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.W); }
@@ -100,74 +86,6 @@ export class Maze {
     }
 }
 
-export const MazeAlgorithms: any = {};
-
-export abstract class MazeAlgorithm {
-    public updateCallback: WhenMazeUpdated = function () { };
-    public eventCallback: WhenMazeUpdated = function () { };
-
-    constructor(
-        public maze: Maze,
-        _options: MazeOptions,
-        public rand = maze.rand
-    ) {
-    }
-
-    abstract step(): boolean;
-
-    onUpdate(fn: WhenMazeUpdated) { return this.updateCallback = fn; }
-    onEvent(fn: WhenMazeUpdated) { return this.eventCallback = fn; }
-
-    updateAt(x: number, y: number) {
-        return this.updateCallback(this.maze, x, y);
-    }
-    eventAt(x: number, y: number) {
-        return this.eventCallback(this.maze, x, y);
-    }
-
-    canWeave(dir: MazeDir, thruX: number, thruY: number) {
-        if (this.maze.isWeave && this.maze.isPerpendicular(thruX, thruY, dir)) {
-            const nx = thruX + MazeDirection.dx[dir];
-            const ny = thruY + MazeDirection.dy[dir];
-            return this.maze.isValid(nx, ny) && this.maze.isBlank(nx, ny);
-        } else {
-            return false;
-        }
-    }
-
-    performThruWeave(thruX: any, thruY: any) {
-        if (this.rand.nextBoolean()) {
-            return this.maze.carve(thruX, thruY, MazeDirection.U);
-        } else if (this.maze.isNorth(thruX, thruY)) {
-            this.maze.uncarve(thruX, thruY, MazeDirection.N | MazeDirection.S);
-            return this.maze.carve(thruX, thruY, MazeDirection.E | MazeDirection.W | MazeDirection.U);
-        } else {
-            this.maze.uncarve(thruX, thruY, MazeDirection.E | MazeDirection.W);
-            return this.maze.carve(thruX, thruY, MazeDirection.N | MazeDirection.S | MazeDirection.U);
-        }
-    }
-
-    performWeave(
-        dir: MazeDir, fromX: number, fromY: number,
-        callback: { (x: any, y: any): number; (arg0: any, arg1: any): void; }
-    ) {
-        const thruX = fromX + MazeDirection.dx[dir];
-        const thruY = fromY + MazeDirection.dy[dir];
-        const toX = thruX + MazeDirection.dx[dir];
-        const toY = thruY + MazeDirection.dy[dir];
-
-        this.maze.carve(fromX, fromY, dir);
-        this.maze.carve(toX, toY, MazeDirection.opposite[dir]);
-
-        this.performThruWeave(thruX, thruY);
-
-        if (callback) { callback(toX, toY); }
-
-        this.updateAt(fromX, fromY);
-        this.updateAt(thruX, thruY);
-        return this.updateAt(toX, toY);
-    }
-};
 
 export const MazeDirection = {
     N: 0x01,

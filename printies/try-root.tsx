@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { RecursiveBacktracker } from './backtracker';
+import { backtracker } from './backtracker';
 import { Maze, toDefaultMazeOptions } from './maze';
 import { Mazer, MazerProps } from './mazer';
 
@@ -10,9 +10,9 @@ import { Mazer, MazerProps } from './mazer';
 const width = 20;
 const height = 20;
 const options = toDefaultMazeOptions(1);
-const maze = new Maze(width, height, RecursiveBacktracker, options);
+const maze = new Maze(width, height, options);
 
-maze.generate();
+backtracker(maze);
 
 class App extends React.Component {
     render() {
