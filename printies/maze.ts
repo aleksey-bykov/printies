@@ -36,32 +36,6 @@ export class MazeRandomizer {
     };
 }
 
-export type WhenMazeUpdated = (maze: Maze, x: number, y: number) => void;
-export class Maze {
-    
-    constructor(
-        public width: number,
-        public height: number,
-        public grid = new MazeGrid(width, height),
-    ) {
-    }
-
-
-    isEast(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.E); }
-    isWest(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.W); }
-    isNorth(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.N); }
-    isSouth(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.S); }
-    isValid(x: number, y: number) { return (0 <= x && x < this.width) && (0 <= y && y < this.height); }
-    carve(x: number, y: number, dir: number) { return this.grid.mark(x, y, dir); }
-    uncarve(x: number, y: number, dir: number) { return this.grid.clear(x, y, dir); }
-    isSet(x: number, y: number, dir: number) { return this.grid.isMarked(x, y, dir); }
-    isBlank(x: number, y: number) { return this.grid.at(x, y) === 0; }
-    isPerpendicular(x: number, y: number, dir: MazeDir) {
-        return (this.grid.at(x, y) & MazeDirection.Mask) === MazeDirection.cross[dir];
-    }
-}
-
-
 export const MazeDirection = {
     N: 0x01,
     S: 0x02,
@@ -79,8 +53,8 @@ export type MazeDir = 1 | 2 | 4 | 8;
 
 export class MazeGrid {
     constructor(
-        width: number,
-        height: number,
+        public width: number,
+        public height: number,
         public data = times(height).map(() => times(width).map(() => 0))
     ) {
     }
@@ -89,4 +63,7 @@ export class MazeGrid {
     mark(x: number, y: number, bits: number) { return this.data[y][x] |= bits; }
     clear(x: number, y: number, bits: number) { return this.data[y][x] &= ~bits; }
     isMarked(x: number, y: number, bits: number) { return (this.data[y][x] & bits) === bits; }
+    isBlank(x: number, y: number) { return this.data[y][x] === 0; }
+    isValid(x: number, y: number) { return (0 <= x && x < this.width) && (0 <= y && y < this.height); }
+
 };

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { times } from './arrays';
 
-
 export interface MazerProps {
     height: number;
     width: number;

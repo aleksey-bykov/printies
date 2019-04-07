@@ -1,2 +1,2 @@
-export type Challenge = 'arithmeic' | 'clock';
-export const allChalleges: Challenge[] = ['arithmeic', 'clock'];
+export type Challenge = 'arithmeic' | 'clock' | 'maze';
+export const allChalleges: Challenge[] = ['arithmeic', 'clock', 'maze'];

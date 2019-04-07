@@ -9,4 +9,10 @@
         "source.organizeImports": true
     },
     "typescript.preferences.renameShorthandProperties": false,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "emmet.showExpandedAbbreviation": "never",
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "editor.snippetSuggestions": "never",
 }

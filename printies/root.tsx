@@ -6,6 +6,7 @@ import { ChallengePicker, ChallengePickerConcern } from './challenge-picker';
 import { thusClockChallenger } from './clock-challenger';
 import { Columnizer } from './columnizer';
 import { broke, to } from './core';
+import { MazeChallenger } from './maze-challenger';
 import { NumberPickerConcern, thusNumberPicker } from './number-picker';
 import { Randomizer } from './random';
 
@@ -26,13 +27,9 @@ class App extends React.Component<AppProps, State> {
     state = to<State>({ challenge: 'arithmeic', columnCount: 2 });
 
     render() {
-        const { columnCount } = this.state;
         return <>
             <ChallengePicker challenges={allChalleges} regarding={this.regardingChallengePicker} />
-            <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
-            <Columnizer columns={columnCount} >
-                {this.renderChallenger()}
-            </Columnizer>
+            {this.renderChallenger()}
         </>;
     }
 
@@ -46,10 +43,17 @@ class App extends React.Component<AppProps, State> {
 
     private renderChallenger(): React.ReactNode {
         const { randomizer } = this.props;
-        const { challenge } = this.state;
+        const { challenge, columnCount } = this.state;
         switch (challenge) {
-            case 'arithmeic': return <ArithmeticChallenger />;
-            case 'clock': return <ClockChallenger randomizer={randomizer} />
+            case 'arithmeic': return <Columnizer columns={columnCount} >
+                <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
+                <ArithmeticChallenger />
+            </Columnizer>;
+            case 'clock': return <Columnizer columns={columnCount} >
+                <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
+                <ClockChallenger randomizer={randomizer} />
+            </Columnizer>;
+            case 'maze': return <MazeChallenger randomizer={randomizer} />
             default: return broke(challenge);
         }
     }

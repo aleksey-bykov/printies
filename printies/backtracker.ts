@@ -1,11 +1,11 @@
-import { Maze, MazeDir, MazeDirection, MazeRandomizer } from './maze';
+import { MazeDir, MazeDirection, MazeGrid, MazeRandomizer } from './maze';
 
 interface Step { x: number; y: number; dirs: MazeDir[]; }
 
-export function backtracker(maze: Maze, rand: MazeRandomizer) {
+export function backtracker(grid: MazeGrid, rand: MazeRandomizer) {
     const stack = [] as Step[];
-    const x = rand.nextInteger(maze.width)
-    const y = rand.nextInteger(maze.height);
+    const x = rand.nextInteger(grid.width)
+    const y = rand.nextInteger(grid.height);
     console.log(x, y);
     stack.push({ x, y, dirs: rand.randomDirections() });
 
@@ -15,11 +15,11 @@ export function backtracker(maze: Maze, rand: MazeRandomizer) {
 
         const nx = last.x + MazeDirection.dx[dir];
         const ny = last.y + MazeDirection.dy[dir];
-        if (maze.isValid(nx, ny) && maze.isBlank(nx, ny)) {
+        if (grid.isValid(nx, ny) && grid.isBlank(nx, ny)) {
             const step = { x: nx, y: ny, dirs: rand.randomDirections() };
             stack.push(step);
-            maze.carve(last.x, last.y, dir);
-            maze.carve(nx, ny, MazeDirection.opposite[dir]);
+            grid.mark(last.x, last.y, dir);
+            grid.mark(nx, ny, MazeDirection.opposite[dir]);
             continue;
         } else {
             if (last.dirs.length === 0) {
