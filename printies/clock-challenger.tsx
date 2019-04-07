@@ -27,6 +27,7 @@ export function thusClockChallenger() {
                         <Clock shortAt={hourAt} longAt={minuteAt} />
                     </div>
                 })
+                .toArray()
         }
     }
 }

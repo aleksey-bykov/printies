@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { ArithmeticChallenger } from './arithmetic-challenger';
-import { Challenge } from './challenge';
+import { allChalleges, Challenge } from './challenge';
+import { ChallengePicker, ChallengePickerConcern } from './challenge-picker';
 import { thusClockChallenger } from './clock-challenger';
 import { Columnizer } from './columnizer';
 import { broke, to } from './core';
@@ -27,6 +28,7 @@ class App extends React.Component<AppProps, State> {
     render() {
         const { columnCount } = this.state;
         return <>
+            <ChallengePicker challenges={allChalleges} regarding={this.regardingChallengePicker} />
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
             <Columnizer columns={columnCount} >
                 {this.renderChallenger()}
@@ -38,7 +40,11 @@ class App extends React.Component<AppProps, State> {
         this.setState({ columnCount: concern.value });
     }
 
-    private renderChallenger() {
+    private regardingChallengePicker = (concern: ChallengePickerConcern) => {
+        this.setState({ challenge: concern.challenge });
+    }
+
+    private renderChallenger(): React.ReactNode {
         const { randomizer } = this.props;
         const { challenge } = this.state;
         switch (challenge) {
