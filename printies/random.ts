@@ -1,5 +1,5 @@
-import { isNull, fail } from "./core";
 import { becauseNoValues } from "./arrays";
+import { fail, isNull } from "./core";
 
 // https://en.wikipedia.org/wiki/Linear_congruential_generator
 
@@ -19,10 +19,16 @@ export function nextRandomOver(seed: number): () => number {
         return seed / d;
     };
 }
-
+const boolean = [true, false];
 export class Randomizer {
     constructor(private seed: number) {
 
+    }
+    flipCouin(): boolean {
+        return this.darePickOne(boolean);
+    }
+    lessThan(count: number): number {
+        return this.between(0, count - 1);
     }
     between(min: number, max: number): number {
         const random = this.seed = nextRandom(this.seed);
