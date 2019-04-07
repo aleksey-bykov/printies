@@ -23,7 +23,7 @@ export function thusClockChallenger() {
                 .onlyUniqueAs(([, , key]) => key)
                 .atMost(10)
                 .instead(([hourAt, minuteAt, key]) => {
-                    return <div key={key}>
+                    return <div key={key} className="challenge">
                         <Clock shortAt={hourAt} longAt={minuteAt} />
                     </div>
                 })

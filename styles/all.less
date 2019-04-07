@@ -2,13 +2,17 @@
 body {
     font-family: monospace;
 }
-
+.off {
+    margin-top: 10px;
+    margin-right: 10px;
+}
 .challenge {
     font-size: 24pt;
     line-height: 4ch;
+    border-top: dotted 1px gray;
+    border-left: dotted 1px gray;
+    padding: 10px;
 }
-
-.challenge + .challenge { border-top: dotted 1px gray; }
 
 @import './print.less';
 @import './clock.less';
