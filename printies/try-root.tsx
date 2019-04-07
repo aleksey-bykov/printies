@@ -11,7 +11,7 @@ const width = 20;
 const height = 20;
 const seed = new Date().getTime();
 const maze = new Maze(width, height);
-const rand = new MazeRandomizer(seed);
+const rand = new MazeRandomizer(10);
 backtracker(maze, rand);
 
 class App extends React.Component {
@@ -26,7 +26,6 @@ class App extends React.Component {
                 if (maze.isWest(x, y)) { classes.push("w"); }
                 if (maze.isSouth(x, y)) { classes.push("s"); }
                 if (maze.isNorth(x, y)) { classes.push("n"); }
-                if (maze.isUnder(x, y)) { classes.push("u"); }
                 return classes.join(' ');
             }
         };

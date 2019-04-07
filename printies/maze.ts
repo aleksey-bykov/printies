@@ -1,3 +1,4 @@
+import { times } from "./arrays";
 import { Randomizer } from "./random";
 
 export class MazeRandomizer {
@@ -50,7 +51,6 @@ export class Maze {
     isWest(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.W); }
     isNorth(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.N); }
     isSouth(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.S); }
-    isUnder(x: number, y: number) { return this.grid.isMarked(x, y, MazeDirection.U); }
     isValid(x: number, y: number) { return (0 <= x && x < this.width) && (0 <= y && y < this.height); }
     carve(x: number, y: number, dir: number) { return this.grid.mark(x, y, dir); }
     uncarve(x: number, y: number, dir: number) { return this.grid.clear(x, y, dir); }
@@ -67,7 +67,6 @@ export const MazeDirection = {
     S: 0x02,
     E: 0x04,
     W: 0x08,
-    U: 0x10,
     Mask: (0x01 | 0x02 | 0x04 | 0x08 | 0x10),
     List: [1, 2, 4, 8],
     dx: { 1: 0, 2: 0, 4: 1, 8: -1 },
@@ -75,13 +74,14 @@ export const MazeDirection = {
     opposite: { 1: 2, 2: 1, 4: 8, 8: 4 },
     cross: { 1: 4 | 8, 2: 4 | 8, 4: 1 | 2, 8: 1 | 2 }
 } as const;
+
 export type MazeDir = 1 | 2 | 4 | 8;
+
 export class MazeGrid {
     constructor(
         width: number,
         height: number,
-        public data = __range__(1, height, true)
-            .map(_y => (__range__(1, width, true).map(_x => 0)))
+        public data = times(height).map(() => times(width).map(() => 0))
     ) {
     }
 
@@ -90,13 +90,3 @@ export class MazeGrid {
     clear(x: number, y: number, bits: number) { return this.data[y][x] &= ~bits; }
     isMarked(x: number, y: number, bits: number) { return (this.data[y][x] & bits) === bits; }
 };
-
-function __range__(left: number, right: number, isInclusive: boolean): number[] {
-    let range: number[] = [];
-    let ascending = left < right;
-    let end = !isInclusive ? right : ascending ? right + 1 : right - 1;
-    for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-        range.push(i);
-    }
-    return range;
-}

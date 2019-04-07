@@ -12,12 +12,12 @@ export class Mazer extends React.Component<MazerProps> {
     render() {
         const { width, height, toClassName } = this.props;
 
-        return <div className="maze medium">
+        return <div className="maze">
             <div className={"grid"}>{
                 times(height).map(y =>
                     <div key={y} className='row'>
                         {times(width).map(x =>
-                            <div key={y + ',' + x} className={toClassName(x, y)} />
+                            <div key={y + ',' + x} className={toClassName(x, y)} title={x + ',' + y}></div>
                         )}
                     </div>
                 )
