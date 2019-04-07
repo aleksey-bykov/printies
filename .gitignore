@@ -1,3 +1,4 @@
 node_modules
 scripts
 *.css
+package-lock.json
