@@ -1,1 +1,1 @@
-export type Challenge = 'arithmeic';
+export type Challenge = 'arithmeic'| 'clock';
