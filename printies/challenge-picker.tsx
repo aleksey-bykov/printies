@@ -12,7 +12,7 @@ export interface ChallengePickerProps {
 export class ChallengePicker extends React.Component<ChallengePickerProps> {
     render() {
         const { challenges } = this.props;
-        return <div>{
+        return <div className="no-print">{
             challenges.map(challenge => {
                 return <li key={challenge}>
                     <a href="" onClick={e => { this.whenPicked(e, challenge); }}>{challenge}</a>

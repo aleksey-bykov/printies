@@ -21,7 +21,7 @@ export function thusClockChallenger() {
                     return [hourAt, minuteAt, key] as const;
                 })
                 .onlyUniqueAs(([, , key]) => key)
-                .atMost(10)
+                .atMost(12)
                 .instead(([hourAt, minuteAt, key]) => {
                     return <div key={key} className="challenge">
                         <Clock shortAt={hourAt} longAt={minuteAt} />
