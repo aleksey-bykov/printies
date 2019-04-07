@@ -3,10 +3,9 @@ import { Randomizer } from "./random";
 
 export class MazeRandomizer {
     constructor(
-        seed: number,
-        private randomizer = new Randomizer(seed),
+        private randomizer: Randomizer,
     ) {
-        
+
     }
     nextInteger(count: number) {
         return this.randomizer.lessThan(count);

@@ -1,22 +1,30 @@
 import * as React from 'react';
 import { backtracker } from './backtracker';
+import { broke } from './core';
 import { MazeDirection, MazeGrid, MazeRandomizer } from './maze';
 import { Mazer, MazerProps } from './mazer';
 import { NumberPickerConcern, thusNumberPicker } from './number-picker';
 import { Randomizer } from "./random";
+import { $atop, toStewardOf } from './stewarding';
+
+
+export type MazeChallengerConcern =
+    | { about: 'width'; width: NumberPickerConcern; }
+    | { about: 'height'; height: NumberPickerConcern; };
 
 export interface MazeChallengerProps {
-    randomizer: Randomizer;
-}
-interface State {
     width: number;
     height: number;
     mazer: MazerProps;
+    regarding: Regarding<MazeChallengerConcern>
 }
-function toState(width: number, height: number): State {
-    const seed = new Date().getTime();
+
+export function toMazerProps(
+    width: number, height: number,
+    randomizer: Randomizer,
+): MazerProps {
     const grid = new MazeGrid(width, height);
-    const rand = new MazeRandomizer(seed);
+    const rand = new MazeRandomizer(randomizer);
     backtracker(grid, rand);
 
     const mazer: MazerProps = {
@@ -32,14 +40,14 @@ function toState(width: number, height: number): State {
             return classes.join(' ');
         }
     };
-    return { width, height, mazer }
+    return mazer;
 }
 const Width = thusNumberPicker('Width', 5, 50);
 const Height = thusNumberPicker('Height', 5, 50);
+
 export class MazeChallenger extends React.Component<MazeChallengerProps> {
-    state = toState(20, 20);
     render() {
-        const { mazer, width, height } = this.state;
+        const { mazer, width, height } = this.props;
         return <div>
             <Width value={width} regarding={this.regardingWidth} />
             <Height value={height} regarding={this.regardingHeight} />
@@ -48,11 +56,27 @@ export class MazeChallenger extends React.Component<MazeChallengerProps> {
     }
 
     private regardingWidth = (concern: NumberPickerConcern) => {
-        const { height } = this.state;
-        this.setState(toState(concern.value, height));
+        this.props.regarding({ about: 'width', width: concern });
     }
     private regardingHeight = (concern: NumberPickerConcern) => {
-        const { width } = this.state;
-        this.setState(toState(width, concern.value));
+        this.props.regarding({ about: 'height', height: concern });
+    }
+}
+export const inMazeChallengerProps = toStewardOf<MazeChallengerProps>();
+export function faceMazeChallengerConcern(
+    props: MazeChallengerProps,
+    concern: MazeChallengerConcern,
+    randomizer: Randomizer,
+): MazeChallengerProps {
+    switch(concern.about) {
+        case 'width': return inMazeChallengerProps[$atop](props, {
+            mazer: toMazerProps(concern.width.value, props.height, randomizer),
+            width: concern.width.value,
+        });
+        case 'height': return inMazeChallengerProps[$atop](props, {
+            mazer: toMazerProps(props.width, concern.height.value, randomizer),
+            height: concern.height.value,
+        })
+        default: return broke(concern);
     }
 }

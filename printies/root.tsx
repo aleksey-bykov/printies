@@ -5,14 +5,15 @@ import { allChalleges, Challenge } from './challenge';
 import { ChallengePicker, ChallengePickerConcern } from './challenge-picker';
 import { thusClockChallenger } from './clock-challenger';
 import { Columnizer } from './columnizer';
-import { broke, to } from './core';
-import { MazeChallenger } from './maze-challenger';
+import { broke } from './core';
+import { faceMazeChallengerConcern, MazeChallenger, MazeChallengerConcern, MazeChallengerProps, toMazerProps } from './maze-challenger';
 import { NumberPickerConcern, thusNumberPicker } from './number-picker';
 import { Randomizer } from './random';
 
 interface State {
     challenge: Challenge;
-    columnCount: number
+    columnCount: number;
+    maze: MazeChallengerProps;
 }
 
 export interface AppProps {
@@ -22,9 +23,30 @@ export interface AppProps {
 const ClockChallenger = thusClockChallenger();
 const ColumnNumberPicker = thusNumberPicker('Columns', 1, 8);
 
+
 class App extends React.Component<AppProps, State> {
 
-    state = to<State>({ challenge: 'arithmeic', columnCount: 2 });
+    private regardingMazeChallenger = (concern: MazeChallengerConcern) => {
+        const { randomizer } = this.props;
+        const { maze: olderMaze } = this.state;
+        const newerMaze = faceMazeChallengerConcern(olderMaze, concern, randomizer);
+        this.setState({ maze: newerMaze });
+    }
+
+    toState = (): State => {
+        const { randomizer } = this.props;
+        const width = 20;
+        const height = 20;
+        const maze: MazeChallengerProps = {
+            height, width, mazer: toMazerProps(width, height, randomizer),
+            regarding: this.regardingMazeChallenger,
+        };
+        return {
+            challenge: 'arithmeic', columnCount: 2, maze
+        };
+    }
+
+    state = this.toState();
 
     render() {
         return <>
@@ -43,7 +65,7 @@ class App extends React.Component<AppProps, State> {
 
     private renderChallenger(): React.ReactNode {
         const { randomizer } = this.props;
-        const { challenge, columnCount } = this.state;
+        const { challenge, columnCount, maze } = this.state;
         switch (challenge) {
             case 'arithmeic': return <Columnizer columns={columnCount} >
                 <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
@@ -53,7 +75,7 @@ class App extends React.Component<AppProps, State> {
                 <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
                 <ClockChallenger randomizer={randomizer} />
             </Columnizer>;
-            case 'maze': return <MazeChallenger randomizer={randomizer} />
+            case 'maze': return <MazeChallenger {...maze} />
             default: return broke(challenge);
         }
     }

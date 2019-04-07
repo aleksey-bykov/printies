@@ -6,7 +6,7 @@ export function backtracker(grid: MazeGrid, rand: MazeRandomizer) {
     const stack = [] as Step[];
     const x = rand.nextInteger(grid.width)
     const y = rand.nextInteger(grid.height);
-    console.log(x, y);
+
     stack.push({ x, y, dirs: rand.randomDirections() });
     while (true) {
         const last = stack[stack.length - 1];
