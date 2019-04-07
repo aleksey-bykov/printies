@@ -1,6 +1,6 @@
 import { Randomizer } from "./random";
 
-class MazeRandomizer {
+export class MazeRandomizer {
     constructor(
         seed: number,
         private randomizer = new Randomizer(seed),
@@ -35,39 +35,14 @@ class MazeRandomizer {
     };
 }
 
-export interface MazeOptions {
-    seed: number;
-    weave: boolean;
-    interval: number;
-    class: string | undefined;
-    wallwise: boolean;
-    padded: boolean;
-    input: number;
-}
-export function toDefaultMazeOptions(input: number): MazeOptions {
-    return {
-        interval: 50,
-        class: undefined,
-        padded: false,
-        wallwise: false,
-        seed: new Date().getTime(),
-        weave: false,
-        input
-    };
-}
 export type WhenMazeUpdated = (maze: Maze, x: number, y: number) => void;
 export class Maze {
-    public rand: MazeRandomizer;
-    public isWeave = false;
-
+    
     constructor(
         public width: number,
         public height: number,
-        options: MazeOptions,
         public grid = new MazeGrid(width, height),
     ) {
-        this.rand = new MazeRandomizer(options.seed);
-        this.isWeave = options.weave;
     }
 
 

@@ -1,4 +1,4 @@
-import { Maze, MazeDir, MazeDirection } from './maze';
+import { Maze, MazeDir, MazeDirection, MazeRandomizer } from './maze';
 
 interface Step { x: number; y: number; dirs: MazeDir[]; }
 
@@ -9,8 +9,7 @@ const STACK = 0x2000;
 
 
 
-export function backtracker(maze: Maze) {
-    const { rand } = maze;
+export function backtracker(maze: Maze, rand: MazeRandomizer) {
     const stack = [] as Step[];
     const x = rand.nextInteger(maze.width)
     const y = rand.nextInteger(maze.height);

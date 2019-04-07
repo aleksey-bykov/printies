@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { backtracker } from './backtracker';
-import { Maze, toDefaultMazeOptions } from './maze';
+import { Maze, MazeRandomizer } from './maze';
 import { Mazer, MazerProps } from './mazer';
 
 //const Clock = thusClock(50, 0.5, 0.65, 1.75);
@@ -9,10 +9,10 @@ import { Mazer, MazerProps } from './mazer';
 
 const width = 20;
 const height = 20;
-const options = toDefaultMazeOptions(1);
-const maze = new Maze(width, height, options);
-
-backtracker(maze);
+const seed = new Date().getTime();
+const maze = new Maze(width, height);
+const rand = new MazeRandomizer(seed);
+backtracker(maze, rand);
 
 class App extends React.Component {
     render() {
