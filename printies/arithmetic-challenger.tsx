@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { everying } from "../every";
 import { broke, maxOf2, minOf2 } from "./core";
+import { everying } from "./every";
 import { Randomizer } from "./random";
 
 const random = new Randomizer(1);
@@ -12,7 +12,7 @@ export interface ArithmeticChallengerProps {
 }
 
 export class ArithmeticChallenger extends React.Component<ArithmeticChallengerProps> {
-    
+
     render() {
         return everying()
             .instead(_ => {

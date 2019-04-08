@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { everying } from '../every';
 import { allHoursAt, allMinutesAt } from './angles';
 import { thusClock } from './clock';
+import { everying } from './every';
 import { Randomizer } from './random';
 
 export interface ClockChallengerProps {
