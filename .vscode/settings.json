@@ -3,6 +3,7 @@
         "**/.git": true,
         "node_modules": true,
         "scripts": true,
+        "bundled": true,
         "**/*.css": true
     },
     "editor.codeActionsOnSave": {
