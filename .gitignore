@@ -3,3 +3,4 @@ scripts
 *.css
 package-lock.json
 bundled
+sketches
