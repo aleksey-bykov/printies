@@ -2,8 +2,8 @@
 
 The goal of this project is to help parents keep their children busy with assignments that can be printed.
 
-<img style="border: solid 1px #bbb;padding 10px;width: 50%;" src="./assets/maze.png" />
-<img style="border: solid 1px #bbb;padding 10px;width: 50%;" src="./assets/clock.png" />
+<img src="./assets/maze.png" />
+<img src="./assets/clock.png" />
 
 ### Try it
 
