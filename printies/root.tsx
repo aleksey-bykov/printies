@@ -58,12 +58,13 @@ class App extends React.Component<AppProps, State> {
         const clock: ClockChallengerProps = {
             randomizer,
             columnCount: 2,
+            areHoursSticky: false,
             hours: {
-                items: toPickedOrNot(allHours),
+                items: toPickedOrNot(allHours, true),
                 regarding: hours => this.regardingClockChallenger({ about: 'hours', hours }),
             },
             minutes: {
-                items: toPickedOrNot(allMinutes),
+                items: toPickedOrNot(allMinutes, true),
                 regarding: minutes => this.regardingClockChallenger({ about: 'minutes', minutes }),
             },
             regarding: this.regardingClockChallenger,

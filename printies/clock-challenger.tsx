@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { thusClock } from './clock';
 import { Columnizer } from './columnizer';
-import { areNumbersEqual, broke, maxOf4 } from './core';
+import { areNumbersEqual, broke, maxOf4, not } from './core';
 import { DiscreteValuePickerConcern, DiscreteValuePickerProps, faceDiscreteValuePickerConcern, thusDiscreteValuePicker } from './discrete-value-picker';
 import { everying } from './every';
 import { Hour, Minute } from './hours-minutes';
@@ -12,7 +12,8 @@ import { $across, $on, toStewardOf } from './stewarding';
 export type ClockChallengerConcern =
     | NumberPickerConcern
     | { about: 'hours'; hours: DiscreteValuePickerConcern<Hour>; }
-    | { about: 'minutes'; minutes: DiscreteValuePickerConcern<Minute>; };
+    | { about: 'minutes'; minutes: DiscreteValuePickerConcern<Minute>; }
+    | { about: 'be-toggled-sticky-hours' };
 
 export const inClockChallengerProps = toStewardOf<ClockChallengerProps>();
 
@@ -21,6 +22,7 @@ export interface ClockChallengerProps {
     randomizer: Randomizer;
     hours: DiscreteValuePickerProps<Hour>;
     minutes: DiscreteValuePickerProps<Minute>;
+    areHoursSticky: boolean;
     regarding: Regarding<ClockChallengerConcern>;
 }
 
@@ -28,6 +30,7 @@ const ColumnNumberPicker = thusNumberPicker('Columns', 1, 8);
 const Clock = thusClock(50, 0.5, 0.7, 2);
 const Hours = thusDiscreteValuePicker<number>('Hours', x => x.toString());
 const Minutes = thusDiscreteValuePicker<number>('Minutes', x => x.toString());
+
 export class ClockChallenger extends React.Component<ClockChallengerProps, never> {
 
     private regardingColumnNumberPicker = (concern: NumberPickerConcern) => {
@@ -35,14 +38,18 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
     }
 
     render() {
-        const { randomizer, hours, minutes, columnCount } = this.props;
+        const { randomizer, hours, minutes, columnCount, areHoursSticky } = this.props;
         const allowedHours = hours.items.filter(x => x.isPicked).map(x => x.value === 12 ? 0 : x.value);
         const allowedMinutes = minutes.items.filter(x => x.isPicked).map(x => x.value);
         return <div>
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
             <Hours {...hours} />
             <Minutes {...minutes} />
-
+            <div>
+                <label>
+                    <input type="checkbox" checked={areHoursSticky} onChange={() => this.props.regarding({ about: 'be-toggled-sticky-hours' })} /> Sticky hours?
+                </label>
+            </div>
             <Columnizer columns={columnCount} >
                 {everying()
                     .instead(_ => {
@@ -59,7 +66,7 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
                     .atMost(12)
                     .instead(([hourAt, minuteAt, key]) => {
                         return <div key={key} className="challenge">
-                            <Clock shortAt={hourAt} longAt={minuteAt} />
+                            <Clock shortAt={hourAt} longAt={minuteAt} areHoursSticky={areHoursSticky} />
                         </div>;
                     })
                     .toArray()
@@ -90,6 +97,9 @@ export function faceClockChallengerConcern(
                     minutes, areNumbersEqual, concern.minutes,
                 )
             );
+        }
+        case 'be-toggled-sticky-hours': {
+            return inClockChallengerProps.areHoursSticky[$across](props, not)
         }
         default: return broke(concern);
     }

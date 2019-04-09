@@ -13,8 +13,8 @@ export interface PickedOrNot<T> {
     isPicked: boolean;
 }
 
-export function toPickedOrNot<T>(values: ReadonlyArray<T>): ReadonlyArray<PickedOrNot<T>> {
-    return values.map(value => to<PickedOrNot<T>>({ value, isPicked: false }));
+export function toPickedOrNot<T>(values: ReadonlyArray<T>, isPicked: boolean): ReadonlyArray<PickedOrNot<T>> {
+    return values.map(value => to<PickedOrNot<T>>({ value, isPicked }));
 }
 
 export interface DiscreteValuePickerProps<T> {

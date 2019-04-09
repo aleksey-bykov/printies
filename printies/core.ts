@@ -24,3 +24,7 @@ export function ignore(): void { }
 export function areNumbersEqual<N extends number>(one: N, another: N): boolean {
     return one === another;
 }
+
+export function not(isIt:boolean): boolean {
+    return !isIt;
+}
