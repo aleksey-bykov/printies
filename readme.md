@@ -2,8 +2,8 @@
 
 The goal of this project is to help parents to keep their children busy with assignments that can be printed.
 
-<img src="./assets/maze.png" />
-<img src="./assets/clock.png" />
+<img width="50%" src="./assets/maze.png" />
+<img width="50%" src="./assets/clock.png" />
 
 ### How to install 
 
