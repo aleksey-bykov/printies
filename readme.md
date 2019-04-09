@@ -5,6 +5,10 @@ The goal of this project is to help parents to keep their children busy with ass
 <img style="border: solid 1px #bbb;padding 10px;width: 50%;" src="./assets/maze.png" />
 <img style="border: solid 1px #bbb;padding 10px;width: 50%;" src="./assets/clock.png" />
 
+### Try it
+
+Here is a playground: http://aws-website-displaying-7i6t6.s3-website-us-east-1.amazonaws.com/
+
 ### How to install 
 
 If you are on Windows:
