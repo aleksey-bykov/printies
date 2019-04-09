@@ -12,7 +12,7 @@ Here is a playground: http://aws-website-displaying-7i6t6.s3-website-us-east-1.a
 ### How to install 
 
 If you are on Windows:
-- make sure you have git installed
+- make sure you have git, nodejs and npm installed
 - do `git clone https://github.com/aleksey-bykov/printies.git`
 - go to `printies` folder
 - run `npm install`
