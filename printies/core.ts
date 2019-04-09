@@ -7,6 +7,9 @@ export function fail(message: string): never {
 export function maxOf2(left: number, right: number): number {
     return left > right ? left : right;
 }
+export function maxOf4(one: number, two: number, three: number, four: number): number {
+    return maxOf2(maxOf2(one, two), maxOf2(three, four));
+}
 export function minOf2(left: number, right: number): number {
     return left < right ? left : right;
 }

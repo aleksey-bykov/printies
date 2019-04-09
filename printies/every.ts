@@ -37,7 +37,7 @@ export function* atMostEvery<T>(
     }
 }
 
-export function *onlyEveryUniqueAs<T, U>(every: Every<T>, as: (value: T) => U): Every<T> {
+export function* onlyEveryUniqueAs<T, U>(every: Every<T>, as: (value: T) => U): Every<T> {
     const seen = new Set<U>();
     for (const value of every) {
         const unlike = as(value);
@@ -46,12 +46,33 @@ export function *onlyEveryUniqueAs<T, U>(every: Every<T>, as: (value: T) => U): 
         yield value;
     }
 }
+export function* onlyEveryUniqueAsUnless<T, U>(every: Every<T>, as: (value: T) => U, or: (value: U) => boolean): Every<T> {
+    const seen = new Set<U>();
+    for (const value of every) {
+        const unlike = as(value);
+        if (seen.has(unlike) && !or(unlike)) continue;
+        seen.add(unlike);
+        yield value;
+    }
+}
+export function* onlyEveryUniqueAsUpto<T, U>(every: Every<T>, as: (value: T) => U, upto: number): Every<T> {
+    const seen = new Set<U>();
+    for (const value of every) {
+        const unlike = as(value);
+        if (seen.has(unlike)) {
+            if (seen.size === upto) return;
+            continue;
+        }
+        seen.add(unlike);
+        yield value;
+    }
+}
 
 export class Everying<T> {
-    
+
     constructor(
         private every: Every<T>
-    ) {}
+    ) { }
 
     instead<U>(instead: (value: T) => U): Everying<U> {
         return new Everying(insteadEvery(this.every, instead));
@@ -64,7 +85,10 @@ export class Everying<T> {
     onlyUniqueAs<U>(as: (value: T) => U) {
         return new Everying(onlyEveryUniqueAs(this.every, as));
     }
-    
+    onlyUniqueAsUpto<U>(as: (value: T) => U, upto: number) {
+        return new Everying(onlyEveryUniqueAsUpto(this.every, as, upto));
+    }
+
     toArray(): T[] {
         const result: T[] = [];
         for (const value of this.every) {
