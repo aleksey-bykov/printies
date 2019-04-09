@@ -1,8 +1,12 @@
 import * as React from 'react';
+import { checkIfAllSomeOrNone } from './arrays';
 import { AreEqual, broke, to } from './core';
-import { $across, toStewardOf } from './stewarding';
+import { HalfwayCheckbox } from './halfway-checkbox';
+import { $across, $on, toStewardOf } from './stewarding';
 
-export type DiscreteValuePickerConcern<T> = { about: 'be-toggled-discrete-value', value: T };
+export type DiscreteValuePickerConcern<T> =
+    | { about: 'be-toggled-discrete-value', value: T }
+    | { about: 'be-toggled-all-discrete-values' };
 
 export interface PickedOrNot<T> {
     value: T;
@@ -10,7 +14,7 @@ export interface PickedOrNot<T> {
 }
 
 export function toPickedOrNot<T>(values: ReadonlyArray<T>): ReadonlyArray<PickedOrNot<T>> {
-    return values.map(value => to<PickedOrNot<T>>({value, isPicked: false}));
+    return values.map(value => to<PickedOrNot<T>>({ value, isPicked: false }));
 }
 
 export interface DiscreteValuePickerProps<T> {
@@ -18,17 +22,29 @@ export interface DiscreteValuePickerProps<T> {
     regarding: Regarding<DiscreteValuePickerConcern<T>>;
 }
 
+
 export function thusDiscreteValuePicker<T>(
+    label: string,
     render: (value: T) => React.ReactNode,
 ) {
 
     return class DiscreteValuePicker extends React.Component<DiscreteValuePickerProps<T>> {
         render() {
             const { items, regarding } = this.props;
+            const thatMany = checkIfAllSomeOrNone(items, item => item.isPicked);
+            const isChecked = thatMany === 'all' ? true : thatMany === 'none' ? false : undefined;
+            const isIntermediate = thatMany === 'all' ? undefined : thatMany === 'none' ? undefined : true;
             return <div>
-                {items.map(({ value, isPicked }) =>
-                    <label>
-                        <input type="checkbox" defaultChecked={isPicked} onChange={() => {
+                {label}:
+                <label>
+                    <HalfwayCheckbox type="checkbox" checked={isChecked} indeterminate={isIntermediate} onChange={() => {
+                        regarding({ about: 'be-toggled-all-discrete-values' });
+                    }} />
+                    All
+                </label>
+                {items.map(({ value, isPicked }, index) =>
+                    <label key={index} className="off">
+                        <input type="checkbox" checked={isPicked} onChange={() => {
                             regarding({ about: 'be-toggled-discrete-value', value })
                         }} />
                         {render(value)}
@@ -44,6 +60,7 @@ export function faceDiscreteValuePickerConcern<T>(
     concern: DiscreteValuePickerConcern<T>,
 ): DiscreteValuePickerProps<T> {
     const inDiscreteValuePickerProps = toStewardOf<DiscreteValuePickerProps<T>>();
+    const inPickedOrNot = toStewardOf<PickedOrNot<T>>();
     switch (concern.about) {
         case 'be-toggled-discrete-value': {
             return inDiscreteValuePickerProps.items[$across](
@@ -55,7 +72,23 @@ export function faceDiscreteValuePickerConcern<T>(
                 )
             );
         }
-        default: return broke(concern.about);
+        case 'be-toggled-all-discrete-values': {
+            const { items } = props;
+            const thatMany = checkIfAllSomeOrNone(items, item => item.isPicked);
+            switch (thatMany) {
+                case 'all': return inDiscreteValuePickerProps.items[$across](
+                    props, items => items.map(item => inPickedOrNot.isPicked[$on](item, false))
+                );
+                case 'none': return inDiscreteValuePickerProps.items[$across](
+                    props, items => items.map(item => inPickedOrNot.isPicked[$on](item, true))
+                );
+                case 'some': return inDiscreteValuePickerProps.items[$across](
+                    props, items => items.map(item => inPickedOrNot.isPicked[$on](item, false))
+                )
+                default: return broke(thatMany);
+            }
+        }
+        default: return broke(concern);
     }
 }
 

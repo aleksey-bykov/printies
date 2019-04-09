@@ -4,8 +4,8 @@ import { thusClockFace } from './clock-face';
 import { HourAt, Minute } from './hours-minutes';
 
 export interface ClockProps {
-    shortAt: HourAt;
-    longAt: Minute;
+    shortAt: HourAt | null;
+    longAt: Minute | null;
 }
 
 export function thusClock(radius: number, shortVsRadi: number, longVsRadi: number, dotRadius: number) {
