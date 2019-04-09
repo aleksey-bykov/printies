@@ -2,8 +2,8 @@
 
 The goal of this project is to help parents keep their children busy with assignments that can be printed.
 
-<img src="./assets/maze.png" />
-<img src="./assets/clock.png" />
+<img src="./assets/maze-01.png" />
+<img src="./assets/clock-02.png" />
 
 ### Try it
 
