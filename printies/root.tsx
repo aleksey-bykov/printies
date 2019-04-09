@@ -5,6 +5,8 @@ import { allChalleges, Challenge } from './challenge';
 import { ChallengePicker, ChallengePickerConcern } from './challenge-picker';
 import { ClockChallenger, ClockChallengerConcern, ClockChallengerProps, faceClockChallengerConcern } from './clock-challenger';
 import { broke } from './core';
+import { toPickedOrNot } from './discrete-value-picker';
+import { allHours, allMinutes } from './hours-minutes';
 import { faceMazeChallengerConcern, MazeChallenger, MazeChallengerConcern, MazeChallengerProps, toMazerProps } from './maze-challenger';
 import { Randomizer } from './random';
 
@@ -56,6 +58,14 @@ class App extends React.Component<AppProps, State> {
         const clock: ClockChallengerProps = {
             randomizer,
             columnCount: 2,
+            hours: {
+                items: toPickedOrNot(allHours),
+                regarding: hours => this.regardingClockChallenger({ about: 'hours', hours }),
+            },
+            minutes: {
+                items: toPickedOrNot(allMinutes),
+                regarding: minutes => this.regardingClockChallenger({ about: 'minutes', minutes }),
+            },
             regarding: this.regardingClockChallenger,
         };
         return {

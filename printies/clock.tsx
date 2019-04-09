@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { HourAt, MinuteAt } from './angles';
 import { thusClockArrows } from './clock-arrows';
 import { thusClockFace } from './clock-face';
+import { HourAt, Minute } from './hours-minutes';
 
 export interface ClockProps {
     shortAt: HourAt;
-    longAt: MinuteAt;
+    longAt: Minute;
 }
 
 export function thusClock(radius: number, shortVsRadi: number, longVsRadi: number, dotRadius: number) {

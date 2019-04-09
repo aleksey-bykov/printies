@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { allHours } from './hours-minutes';
 
-const hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
 
 export function thusClockFace(radius: number, dotRadius: number) {
     return class ClockFace extends React.Component {
@@ -8,8 +9,8 @@ export function thusClockFace(radius: number, dotRadius: number) {
             const digitSize = radius * 0.25;
             const innerRadius = radius - digitSize + digitSize * 0.2;
             return <>
-                {hours.map((hour, index) => {
-                    const alpha1 = -90 + index * 360 / hours.length;
+                {allHours.map((hour, index) => {
+                    const alpha1 = -90 + index * 360 / allHours.length;
                     const alpha = alpha1 / 180 * Math.PI;
                     const x = radius * Math.cos(alpha);
                     const y = radius * Math.sin(alpha);

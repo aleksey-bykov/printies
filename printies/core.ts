@@ -14,3 +14,10 @@ export function broke(_: never): never {
     return fail('This cannot be.');
 }
 export function to<T>(value: T): T { return value; }
+export type AreEqual<T> = (one: T, another: T) => boolean;
+
+export function ignore(): void { }
+
+export function areNumbersEqual<N extends number>(one: N, another: N): boolean {
+    return one === another;
+}

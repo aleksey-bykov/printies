@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { degreeToRadi, HourAt, hourToDegrees, MinuteAt, minuteToDegrees } from './angles';
+import { degreeToRadi, hourToDegrees, minuteToDegrees } from './angles';
+import { HourAt, Minute } from './hours-minutes';
 
 export interface ClockArrowsProps {
     shortAt: HourAt;
-    longAt: MinuteAt;
+    longAt: Minute;
     areHoursSticky: boolean;
 }
 

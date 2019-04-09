@@ -37,12 +37,12 @@ export class Randomizer {
         const result = min + Math.floor(span * inversed);
         return result;
     }
-    darePickOne<T>(values: T[]): T {
+    darePickOne<T>(values: ReadonlyArray<T>): T {
         const result = this.pickOneOr(values, null);
         if (isNull(result)) return fail(becauseNoValues);
         return result;
     }
-    pickOneOr<T, O>(values: T[], or: O): T | O {
+    pickOneOr<T, O>(values: ReadonlyArray<T>, or: O): T | O {
         if (values.length < 1) return or;
         const index = this.between(0, values.length - 1);
         return values[index];
