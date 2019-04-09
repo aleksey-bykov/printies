@@ -17,3 +17,4 @@ If you are on Windows:
 - go to `printies` folder
 - run `npm install`
 - run `run.bat`
+If not, may God help you.
