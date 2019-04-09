@@ -1,6 +1,6 @@
-- onlyUniqueAs needs a stop point (all dimentions multiplied?)
+- ~onlyUniqueAs needs a stop point (all dimentions multiplied?)~
 - answer sheet
 - clock calculations
     - 24 -> 12
-    - sticky hours
+    - ~sticky hours~
 - find a country challenage
