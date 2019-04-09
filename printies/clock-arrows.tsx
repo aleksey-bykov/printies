@@ -29,7 +29,7 @@ export function thusClockArrows(radius: number, shortVsR: number, longVsR: numbe
         const shortAlpha = degreeToRadi(hourToDegrees(shortAt + shortDelta));
         const shortX = Math.cos(shortAlpha) * shortRadius;
         const shortY = Math.sin(shortAlpha) * shortRadius;
-        return <line className="clock-arrow as-big" x2={shortX} y2={shortY} />
+        return <line className="clock-arrow as-short" x2={shortX} y2={shortY} />
     }
 
     function renderLong(longAt: number | null, longRadius: number) {
@@ -37,6 +37,6 @@ export function thusClockArrows(radius: number, shortVsR: number, longVsR: numbe
         const longAlpha = degreeToRadi(minuteToDegrees(longAt));
         const longX = Math.cos(longAlpha) * longRadius;
         const longY = Math.sin(longAlpha) * longRadius;
-        return <line className="clock-arrow as-small" x2={longX} y2={longY} />;
+        return <line className="clock-arrow" x2={longX} y2={longY} />;
     }
 }

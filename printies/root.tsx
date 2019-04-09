@@ -59,6 +59,7 @@ class App extends React.Component<AppProps, State> {
             randomizer,
             columnCount: 2,
             areHoursSticky: false,
+            shouldDisplayMinutes: false,
             hours: {
                 items: toPickedOrNot(allHours, true),
                 regarding: hours => this.regardingClockChallenger({ about: 'hours', hours }),

@@ -13,7 +13,8 @@ export type ClockChallengerConcern =
     | NumberPickerConcern
     | { about: 'hours'; hours: DiscreteValuePickerConcern<Hour>; }
     | { about: 'minutes'; minutes: DiscreteValuePickerConcern<Minute>; }
-    | { about: 'be-toggled-sticky-hours' };
+    | { about: 'be-toggled-sticky-hours' }
+    | { about: 'be-toggled-minutes' };
 
 export const inClockChallengerProps = toStewardOf<ClockChallengerProps>();
 
@@ -23,6 +24,7 @@ export interface ClockChallengerProps {
     hours: DiscreteValuePickerProps<Hour>;
     minutes: DiscreteValuePickerProps<Minute>;
     areHoursSticky: boolean;
+    shouldDisplayMinutes: boolean;
     regarding: Regarding<ClockChallengerConcern>;
 }
 
@@ -38,7 +40,7 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
     }
 
     render() {
-        const { randomizer, hours, minutes, columnCount, areHoursSticky } = this.props;
+        const { randomizer, hours, minutes, columnCount, areHoursSticky, shouldDisplayMinutes } = this.props;
         const allowedHours = hours.items.filter(x => x.isPicked).map(x => x.value === 12 ? 0 : x.value);
         const allowedMinutes = minutes.items.filter(x => x.isPicked).map(x => x.value);
         return <div>
@@ -48,6 +50,11 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
             <div>
                 <label>
                     <input type="checkbox" checked={areHoursSticky} onChange={() => this.props.regarding({ about: 'be-toggled-sticky-hours' })} /> Sticky hours?
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" checked={shouldDisplayMinutes} onChange={() => this.props.regarding({ about: 'be-toggled-minutes' })} /> Show minutes?
                 </label>
             </div>
             <Columnizer columns={columnCount} >
@@ -66,7 +73,7 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
                     .atMost(12)
                     .instead(([hourAt, minuteAt, key]) => {
                         return <div key={key} className="challenge">
-                            <Clock shortAt={hourAt} longAt={minuteAt} areHoursSticky={areHoursSticky} />
+                            <Clock shouldDisplayMinutes={shouldDisplayMinutes} shortAt={hourAt} longAt={minuteAt} areHoursSticky={areHoursSticky} />
                         </div>;
                     })
                     .toArray()
@@ -99,7 +106,10 @@ export function faceClockChallengerConcern(
             );
         }
         case 'be-toggled-sticky-hours': {
-            return inClockChallengerProps.areHoursSticky[$across](props, not)
+            return inClockChallengerProps.areHoursSticky[$across](props, not);
+        }
+        case 'be-toggled-minutes': {
+            return inClockChallengerProps.shouldDisplayMinutes[$across](props, not);
         }
         default: return broke(concern);
     }
