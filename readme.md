@@ -19,3 +19,6 @@ If you are on Windows:
 - run `run.bat`
 
 If not, may God help you.
+
+### Reading the code?
+- consult with namings: https://github.com/zpdDG4gta8XKpMCd/naming
