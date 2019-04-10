@@ -3,7 +3,7 @@
 
 What is public is public. There are some pieces of Python, JavaScript and other stuff, so proceed with caution.
 
-## About my goals
+## My goals
 
 The goal of this project is to help parents keep their children busy with assignments that can be printed.
 
