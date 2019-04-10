@@ -1,4 +1,8 @@
 # Printies
+
+## License
+Will figure it our later.
+
 ## Disclaimer
 
 What is public is public. There are some pieces of Python, JavaScript and other stuff, so proceed with caution.
