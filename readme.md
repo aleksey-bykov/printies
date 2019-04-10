@@ -14,7 +14,7 @@ The goal of this project is to help parents keep their children busy with assign
 <img src="./assets/maze-01.png" />
 <img src="./assets/clock-02.png" />
 
-### Try it
+## Wanna try?
 
 Here is a playground: http://aws-website-displaying-7i6t6.s3-website-us-east-1.amazonaws.com/
 
