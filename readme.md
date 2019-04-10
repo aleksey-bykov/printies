@@ -7,7 +7,7 @@ Will figure it our later.
 
 What is public is public. There are some pieces of Python, JavaScript and other stuff, so don't hurt yourself and proceed with caution.
 
-## My goals
+## Goals
 
 The goal of this project is to help parents keep their children busy with assignments that can be printed.
 
