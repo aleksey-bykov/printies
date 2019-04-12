@@ -53,6 +53,14 @@ class App extends React.Component<AppProps, State> {
         const arithmetic: ArithmeticChallengerProps = {
             randomizer,
             columnCount: 2,
+            minNumber: {
+                value: 2,
+                regarding: min => this.regardingArithmeticChallenger({ about: 'min', min }),
+            },
+            maxNumber: {
+                value: 10,
+                regarding: max => this.regardingArithmeticChallenger({ about: 'max', max }),
+            },
             regarding: this.regardingArithmeticChallenger,
         };
         const clock: ClockChallengerProps = {

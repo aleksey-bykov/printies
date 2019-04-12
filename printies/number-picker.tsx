@@ -10,7 +10,12 @@ export interface NumberPickerProps {
 
 export function thusNumberPicker(label: string, min: number, max: number) {
 
-    return class NumberPicker extends React.Component<NumberPickerProps> {
+    type Props = NumberPickerProps;
+
+    return class NumberPicker extends React.Component<Props> {
+
+        static Props: Props;
+
         render() {
             const { value } = this.props;
             return <div className="no-print">
