@@ -34,7 +34,7 @@ export function thusDiscreteValuePicker<T>(
             const thatMany = checkIfAllSomeOrNone(items, item => item.isPicked);
             const isChecked = thatMany === 'all' ? true : thatMany === 'none' ? false : undefined;
             const isIntermediate = thatMany === 'all' ? undefined : thatMany === 'none' ? undefined : true;
-            return <div>
+            return <div className="no-print">
                 {label}:
                 <label>
                     <HalfwayCheckbox type="checkbox" checked={isChecked} indeterminate={isIntermediate} onChange={() => {

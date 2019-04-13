@@ -47,12 +47,12 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
             <Hours {...hours} />
             <Minutes {...minutes} />
-            <div>
+            <div className="no-print">
                 <label>
                     <input type="checkbox" checked={areHoursSticky} onChange={() => this.props.regarding({ about: 'be-toggled-sticky-hours' })} /> Sticky hours?
                 </label>
             </div>
-            <div>
+            <div className="no-print">
                 <label>
                     <input type="checkbox" checked={shouldDisplayMinutes} onChange={() => this.props.regarding({ about: 'be-toggled-minutes' })} /> Show minutes?
                 </label>
@@ -70,7 +70,7 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
                         allowedHours.length, allowedMinutes.length,
                         1
                     ))
-                    .atMost(12)
+                    .atMost(21)
                     .instead(([hourAt, minuteAt, key]) => {
                         return <div key={key} className="challenge">
                             <Clock shouldDisplayMinutes={shouldDisplayMinutes} shortAt={hourAt} longAt={minuteAt} areHoursSticky={areHoursSticky} />
