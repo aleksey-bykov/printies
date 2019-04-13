@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Columnizer } from './columnizer';
-import { broke, maxOf2, minOf2 } from "./core";
-import { everying } from "./every";
+import { broke } from "./core";
 import { NumberPickerConcern, thusNumberPicker } from './number-picker';
+import { QualifiedMidSpace } from './qualified-mid-space';
+import { QuantifiedRangedMidSpace } from './quantified-ranged-mid-space';
+import { QuantifiedRangedTipSpace } from './quantified-ranged-tip-space';
 import { Randomizer } from "./random";
+import { randomizing } from './randomizing';
 import { $on, toStewardOf } from './stewarding';
 
 const digits = [0, 1, 2, 4, 5, 6, 7, 8, 9];
@@ -35,7 +38,6 @@ export type MaxNumberPickerProps = typeof MaxNumberPicker.Props;
 
 const NumberOfProblemsPicker = thusNumberPicker('Number of problems', 0, 100);
 export type NumberOfProblemsPickerProps = typeof NumberOfProblemsPicker.Props;
-
 export class ArithmeticChallenger extends React.Component<ArithmeticChallengerProps> {
 
     private regardingColumnNumberPicker = (columns: NumberPickerConcern) => {
@@ -45,38 +47,24 @@ export class ArithmeticChallenger extends React.Component<ArithmeticChallengerPr
     render() {
 
         const { columnCount, randomizer, minNumber, maxNumber, numberOfProblemsPicker } = this.props;
-        const allowedDigits = digits.filter(x => x >= this.props.minNumber.value && x <= this.props.maxNumber.value);
+        const space = new QuantifiedRangedMidSpace(
+            minNumber.value, maxNumber.value, randomizer,
+            (value, _min, _max, random) =>
+                new QualifiedMidSpace(['-', '+'] as const, random, _operation =>
+                    new QuantifiedRangedTipSpace(minNumber.value, value, random)
+                )
+        );
         return <Columnizer columns={columnCount} >
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
             <MinNumberPicker {...minNumber} />
             <MaxNumberPicker {...maxNumber} />
             <NumberOfProblemsPicker {...numberOfProblemsPicker} />
-            {everying()
-                .instead(_ => {
-
-                    const one = randomizer.darePickOne(allowedDigits);
-                    const another = randomizer.darePickOne(allowedDigits);
-                    const operation = randomizer.darePickOne(operations);
-                    let left: number
-                    let right: number;
-                    switch (operation) {
-                        case '-':
-                            left = maxOf2(one, another);
-                            right = minOf2(one, another);
-                            break;
-                        case '+':
-                            left = one;
-                            right = another;
-                            break;
-                        default: return broke(operation);
-                    }
-                    return [left, operation, right, left + operation + right] as const;
-                })
-                .onlyUniqueAsUpto(([, , , key]) => key, allowedDigits.length * allowedDigits.length * operations.length)
-                .atMost(numberOfProblemsPicker.value)
-                .instead(([left, operation, right, key]) => {
+            {randomizing(space)
+                .instead(([left, [operation, right]]) => {
+                    const key = left + operation + right;
                     return <div key={key} className="challenge">{left} {operation} {right} = __</div>;
                 })
+                .atMost(numberOfProblemsPicker.value)
                 .toArray()}
         </Columnizer>;
     }
