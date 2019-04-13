@@ -7,6 +7,68 @@ type Child<T> = {
     hasMore(): boolean;
 }
 
+export class Mid1<C> {
+    private exhausted?: Map<string, Child<C>>;
+    private vacant?: Map<string, Child<C>>;
+    constructor(
+        private options: string[],
+        private random: Randomizer,
+        private toChild: (value: string, random: Randomizer) => Child<C>,
+    ) {
+    }
+    hasMore() {
+        const { options, exhausted, vacant } = this;
+        if (isUndefined(vacant)) return true;
+
+        let atLeastOneVacant = false;
+        for (let index = 0; index < options.length; index ++) {
+            const at = options[index];
+            if (vacant.has(at)) {
+                const child = vacant.get(at)!;
+                if (child.hasMore()) {
+                    atLeastOneVacant = true;
+                } else {
+                    vacant.delete(at);
+                    const exhausted = this.claimExhausted();
+                    exhausted.set(at, child);
+                }
+            } else if (isDefined(exhausted) && exhausted.has(at)) {
+                // do nothing
+            } else {
+                atLeastOneVacant = true;
+            }
+        }
+        return atLeastOneVacant;
+    }
+    private claimExhausted() {
+        if (isDefined(this.exhausted)) return this.exhausted;
+        return this.exhausted = new Map<string, Child<C>>();
+    }
+    private claimVacant() {
+        if (isDefined(this.vacant)) return this.vacant;
+        return this.vacant = new Map<string, Child<C>>();
+    }
+    private claimVacantAt(at: string): Child<C> {
+        const { random } = this;
+        const vacant = this.claimVacant();
+        if (vacant.has(at)) return vacant.get(at)!;
+        const child = this.toChild(at, random);
+        vacant.set(at, child);
+        return child;
+    }
+    draw(): [string, C] {
+        const { exhausted, options, random } = this;
+
+        const all = isDefined(exhausted)
+            ? options.filter(value => !exhausted.has(value))
+            : options;
+        const at = random.pickOneOr(all, null);
+        if (isNull(at)) return fail('!!!');
+        const child = this.claimVacantAt(at);
+        return [at, child.draw()];
+    }
+}
+
 export class Mid<C> {
     private exhausted?: Map<number, Child<C>>;
     private vacant?: Map<number, Child<C>>;
