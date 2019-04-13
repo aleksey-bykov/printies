@@ -60,11 +60,11 @@ export class ArithmeticChallenger extends React.Component<ArithmeticChallengerPr
             <MaxNumberPicker {...maxNumber} />
             <NumberOfProblemsPicker {...numberOfProblemsPicker} />
             {randomizing(space)
+                .atMost(numberOfProblemsPicker.value)
                 .instead(([left, [operation, right]]) => {
                     const key = left + operation + right;
                     return <div key={key} className="challenge">{left} {operation} {right} = __</div>;
                 })
-                .atMost(numberOfProblemsPicker.value)
                 .toArray()}
         </Columnizer>;
     }
