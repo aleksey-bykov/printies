@@ -61,6 +61,10 @@ class App extends React.Component<AppProps, State> {
                 value: 10,
                 regarding: max => this.regardingArithmeticChallenger({ about: 'max', max }),
             },
+            numberOfProblemsPicker: {
+                value: 20,
+                regarding: problems => this.regardingArithmeticChallenger({ about: 'problems', problems })
+            },
             regarding: this.regardingArithmeticChallenger,
         };
         const clock: ClockChallengerProps = {

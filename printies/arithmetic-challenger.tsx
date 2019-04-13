@@ -12,7 +12,8 @@ const operations = ['+' as const, '-' as const];
 export type ArithmeticChallengerConcern =
     | { about: 'columns'; columns: NumberPickerConcern; }
     | { about: 'min'; min: NumberPickerConcern; }
-    | { about: 'max'; max: NumberPickerConcern; };
+    | { about: 'max'; max: NumberPickerConcern; }
+    | { about: 'problems'; problems: NumberPickerConcern; };
 
 export const inArithmeticChallengerProps = toStewardOf<ArithmeticChallengerProps>();
 export interface ArithmeticChallengerProps {
@@ -20,6 +21,7 @@ export interface ArithmeticChallengerProps {
     randomizer: Randomizer;
     minNumber: MinNumberPickerProps;
     maxNumber: MaxNumberPickerProps;
+    numberOfProblemsPicker: NumberOfProblemsPickerProps;
     regarding: Regarding<ArithmeticChallengerConcern>;
 }
 
@@ -31,6 +33,9 @@ export type MinNumberPickerProps = typeof MinNumberPicker.Props;
 const MaxNumberPicker = thusNumberPicker('Max number', 0, 100);
 export type MaxNumberPickerProps = typeof MaxNumberPicker.Props;
 
+const NumberOfProblemsPicker = thusNumberPicker('Number of problems', 0, 100);
+export type NumberOfProblemsPickerProps = typeof NumberOfProblemsPicker.Props;
+
 export class ArithmeticChallenger extends React.Component<ArithmeticChallengerProps> {
 
     private regardingColumnNumberPicker = (columns: NumberPickerConcern) => {
@@ -39,12 +44,13 @@ export class ArithmeticChallenger extends React.Component<ArithmeticChallengerPr
 
     render() {
 
-        const { columnCount, randomizer, minNumber, maxNumber } = this.props;
+        const { columnCount, randomizer, minNumber, maxNumber, numberOfProblemsPicker } = this.props;
         const allowedDigits = digits.filter(x => x >= this.props.minNumber.value && x <= this.props.maxNumber.value);
         return <Columnizer columns={columnCount} >
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
             <MinNumberPicker {...minNumber} />
             <MaxNumberPicker {...maxNumber} />
+            <NumberOfProblemsPicker {...numberOfProblemsPicker} />
             {everying()
                 .instead(_ => {
 
@@ -67,7 +73,7 @@ export class ArithmeticChallenger extends React.Component<ArithmeticChallengerPr
                     return [left, operation, right, left + operation + right] as const;
                 })
                 .onlyUniqueAsUpto(([, , , key]) => key, allowedDigits.length * allowedDigits.length * operations.length)
-                .atMost(10)
+                .atMost(numberOfProblemsPicker.value)
                 .instead(([left, operation, right, key]) => {
                     return <div key={key} className="challenge">{left} {operation} {right} = __</div>;
                 })
@@ -100,6 +106,13 @@ export function faceArithmeticChallengerConcern(
                 case 'be-changed-number-value':
                     return inArithmeticChallengerProps.maxNumber.value[$on](props, concern.max.value);
                 default: return broke(concern.max.about);
+            }
+        }
+        case 'problems': {
+            switch(concern.problems.about) {
+                case 'be-changed-number-value':
+                    return inArithmeticChallengerProps.numberOfProblemsPicker.value[$on](props, concern.problems.value);
+                default: return broke(concern.problems.about);
             }
         }
         default: return broke(concern);
