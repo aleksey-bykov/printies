@@ -17,13 +17,13 @@ export class QuantifiedRangedMidSpace<C> {
         const { min, max, exhausted, vacant } = this;
         if (isUndefined(vacant)) return true;
         const size = max - min + 1;
-        let atLeastOneVacant = false;
+        let hasAtLeastOneVacant = false;
         for (let index = 0; index < size; index ++) {
             const at = min + index;
             if (vacant.has(at)) {
                 const child = vacant.get(at)!;
                 if (child.hasMore()) {
-                    atLeastOneVacant = true;
+                    hasAtLeastOneVacant = true;
                 } else {
                     vacant.delete(at);
                     const exhausted = this.claimExhausted();
@@ -32,10 +32,10 @@ export class QuantifiedRangedMidSpace<C> {
             } else if (isDefined(exhausted) && exhausted.has(at)) {
                 // do nothing
             } else {
-                atLeastOneVacant = true;
+                hasAtLeastOneVacant = true;
             }
         }
-        return atLeastOneVacant;
+        return hasAtLeastOneVacant;
     }
     private claimExhausted() {
         if (isDefined(this.exhausted)) return this.exhausted;

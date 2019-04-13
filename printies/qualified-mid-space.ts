@@ -15,13 +15,13 @@ export class QualifiedMidSpace<T, C> {
         const { options, exhausted, vacant } = this;
         if (isUndefined(vacant)) return true;
 
-        let atLeastOneVacant = false;
+        let hasAtLeastOneVacant = false;
         for (let index = 0; index < options.length; index++) {
             const at = options[index];
             if (vacant.has(at)) {
                 const child = vacant.get(at)!;
                 if (child.hasMore()) {
-                    atLeastOneVacant = true;
+                    hasAtLeastOneVacant = true;
                 } else {
                     vacant.delete(at);
                     const exhausted = this.claimExhausted();
@@ -30,10 +30,10 @@ export class QualifiedMidSpace<T, C> {
             } else if (isDefined(exhausted) && exhausted.has(at)) {
                 // do nothing
             } else {
-                atLeastOneVacant = true;
+                hasAtLeastOneVacant = true;
             }
         }
-        return atLeastOneVacant;
+        return hasAtLeastOneVacant;
     }
     private claimExhausted() {
         if (isDefined(this.exhausted)) return this.exhausted;
