@@ -54,19 +54,21 @@ export class ArithmeticChallenger extends React.Component<ArithmeticChallengerPr
                     new QuantifiedRangedTipSpace(minNumber.value, value, random)
                 )
         );
-        return <Columnizer columns={columnCount} >
+        return <div>
             <ColumnNumberPicker value={columnCount} regarding={this.regardingColumnNumberPicker} />
             <MinNumberPicker {...minNumber} />
             <MaxNumberPicker {...maxNumber} />
             <NumberOfProblemsPicker {...numberOfProblemsPicker} />
-            {randomizing(space)
-                .atMost(numberOfProblemsPicker.value)
-                .instead(([left, [operation, right]]) => {
-                    const key = left + operation + right;
-                    return <div key={key} className="challenge">{left} {operation} {right} = __</div>;
-                })
-                .toArray()}
-        </Columnizer>;
+            <Columnizer columns={columnCount} >
+                {randomizing(space)
+                    .atMost(numberOfProblemsPicker.value)
+                    .instead(([left, [operation, right]]) => {
+                        const key = left + operation + right;
+                        return <div key={key} className="challenge">{left} {operation} {right} = __</div>;
+                    })
+                    .toArray()}
+            </Columnizer>
+        </div>;
     }
 }
 
@@ -76,28 +78,28 @@ export function faceArithmeticChallengerConcern(
 ): ArithmeticChallengerProps {
     switch (concern.about) {
         case 'columns': {
-            switch(concern.columns.about) {
+            switch (concern.columns.about) {
                 case 'be-changed-number-value':
                     return inArithmeticChallengerProps.columnCount[$on](props, concern.columns.value);
                 default: return broke(concern.columns.about);
             }
         }
         case 'min': {
-            switch(concern.min.about) {
+            switch (concern.min.about) {
                 case 'be-changed-number-value':
                     return inArithmeticChallengerProps.minNumber.value[$on](props, concern.min.value);
                 default: return broke(concern.min.about);
             }
         }
         case 'max': {
-            switch(concern.max.about) {
+            switch (concern.max.about) {
                 case 'be-changed-number-value':
                     return inArithmeticChallengerProps.maxNumber.value[$on](props, concern.max.value);
                 default: return broke(concern.max.about);
             }
         }
         case 'problems': {
-            switch(concern.problems.about) {
+            switch (concern.problems.about) {
                 case 'be-changed-number-value':
                     return inArithmeticChallengerProps.numberOfProblemsPicker.value[$on](props, concern.problems.value);
                 default: return broke(concern.problems.about);
