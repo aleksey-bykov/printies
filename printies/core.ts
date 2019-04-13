@@ -1,6 +1,12 @@
 export function isNull<T extends ([null] extends [T] ? any : never)>(value: T): value is T & null {
     return value === null;
 }
+export function isUndefined<T extends ([undefined] extends [T] ? any : never)>(value: T): value is T & undefined {
+    return value === undefined;
+}
+export function isDefined<T extends ([undefined] extends [T] ? any : never)>(value: T): value is Exclude<T, undefined> {
+    return value !== undefined;
+}
 export function fail(message: string): never {
     throw new Error(message);
 }
@@ -28,3 +34,5 @@ export function areNumbersEqual<N extends number>(one: N, another: N): boolean {
 export function not(isIt:boolean): boolean {
     return !isIt;
 }
+
+

@@ -5,6 +5,15 @@ export function times(count: number): number[] {
     }
     return result;
 }
+
+export function timesOff(count: number, initial: number): number[] {
+    const result: number[] = [];
+    for (let index = 0; index < count; index ++) {
+        result.push(initial + index);
+    }
+    return result;
+}
+
 export function countThoseThat<T>(
     values: ReadonlyArray<T>,
     isThat: (value: T, index: number) => boolean,
