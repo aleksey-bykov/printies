@@ -14,7 +14,7 @@ export class Mid<C> {
         private min: number,
         private max: number,
         private random: Randomizer,
-        private toChild: (min: number, max: number, random: Randomizer) => Child<C>,
+        private toChild: (value: number, min: number, max: number, random: Randomizer) => Child<C>,
     ) {
     }
     hasMore() {
@@ -53,7 +53,7 @@ export class Mid<C> {
         const { min, max, random } = this;
         const vacant = this.claimVacant();
         if (vacant.has(at)) return vacant.get(at)!;
-        const child = this.toChild(min, max, random);
+        const child = this.toChild(at, min, max, random);
         vacant.set(at, child);
         return child;
     }

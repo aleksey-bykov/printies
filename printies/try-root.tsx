@@ -4,7 +4,10 @@ import { Randomizer } from './random';
 import { Mid, Tip } from './value-space';
 
 const random = new Randomizer(10);
-const mid = new Mid(0, 10, random, (min, max) => new Tip(min, max, random));
+const mid = new Mid(
+    0, 10, random,
+    (_value, min, max, random) => new Tip(min, max, random)
+);
 
 while (mid.hasMore()) {
     const drawn = mid.draw();
