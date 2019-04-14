@@ -57,8 +57,8 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
                     <input type="checkbox" checked={shouldDisplayMinutes} onChange={() => this.props.regarding({ about: 'be-toggled-minutes' })} /> Show minutes?
                 </label>
             </div>
-            <Columnizer columns={columnCount} >
-                {everying()
+            <Columnizer columns={columnCount} stuff={
+                everying()
                     .instead(_ => {
                         const hourAt = randomizer.pickOneOr(allowedHours, null);
                         const minuteAt = randomizer.pickOneOr(allowedMinutes, null);
@@ -77,7 +77,8 @@ export class ClockChallenger extends React.Component<ClockChallengerProps, never
                         </div>;
                     })
                     .toArray()
-                }
+            } >
+
             </Columnizer>
         </div>;
     }

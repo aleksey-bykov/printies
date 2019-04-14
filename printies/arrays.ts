@@ -1,6 +1,6 @@
 export function times(count: number): number[] {
     const result: number[] = [];
-    for (let index = 0; index < count; index ++) {
+    for (let index = 0; index < count; index++) {
         result.push(index);
     }
     return result;
@@ -8,7 +8,7 @@ export function times(count: number): number[] {
 
 export function timesOff(count: number, initial: number): number[] {
     const result: number[] = [];
-    for (let index = 0; index < count; index ++) {
+    for (let index = 0; index < count; index++) {
         result.push(initial + index);
     }
     return result;
@@ -19,7 +19,7 @@ export function countThoseThat<T>(
     isThat: (value: T, index: number) => boolean,
 ): number {
     let count = 0;
-    for (let index = 0; index < values.length; index ++) {
+    for (let index = 0; index < values.length; index++) {
         if (isThat(values[index], index)) {
             count += 1;
         }
@@ -38,3 +38,20 @@ export function checkIfAllSomeOrNone<T>(
 }
 
 export const becauseNoValues = 'No values.';
+
+
+export function chunkHorizontally<T>(values: ReadonlyArray<T>, columns: number): T[][] {
+    const rows: T[][] = [];
+    let row: T[] = [];
+    for (const value of values) {
+        if (row.length >= columns) {
+            rows.push(row);
+            row = [];
+        }
+        row.push(value);
+    }
+    if (row.length > 0) {
+        rows.push(row);
+    }
+    return rows;
+}
