@@ -3,9 +3,9 @@ import { Challenge } from './challenge';
 
 export type ChallengePickerConcern =
     { about: 'be-picked-challege'; challenge: Challenge; };
-    
+
 export interface ChallengePickerProps {
-    challenges: Challenge[];
+    challenges: ReadonlyArray<Challenge>;
     regarding: Regarding<ChallengePickerConcern>
 }
 

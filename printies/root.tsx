@@ -9,12 +9,14 @@ import { toPickedOrNot } from './discrete-value-picker';
 import { allHours, allMinutes } from './hours-minutes';
 import { faceMazeChallengerConcern, MazeChallenger, MazeChallengerConcern, MazeChallengerProps, toMazerProps } from './maze-challenger';
 import { Randomizer } from './random';
+import { faceWritingChallengerConcern, WritingChallenger, WritingChallengerConcern, WritingChallengerProps } from './writing-challenger';
 
 interface State {
     challenge: Challenge;
     maze: MazeChallengerProps;
     arithmetic: ArithmeticChallengerProps;
     clock: ClockChallengerProps;
+    writing: WritingChallengerProps;
 }
 
 export interface AppProps {
@@ -40,6 +42,12 @@ class App extends React.Component<AppProps, State> {
         const { clock: olderClock } = this.state;
         const newerClock = faceClockChallengerConcern(olderClock, concern);
         this.setState({ clock: newerClock });
+    }
+
+    private regardingWritingChallenger = (concern: WritingChallengerConcern) => {
+        const { writing: olderWriting } = this.state;
+        const newerWriting = faceWritingChallengerConcern(olderWriting, concern);
+        this.setState({ writing: newerWriting });
     }
 
     toState = (): State => {
@@ -82,9 +90,13 @@ class App extends React.Component<AppProps, State> {
             },
             regarding: this.regardingClockChallenger,
         };
+        const writing: WritingChallengerProps = {
+            columnCount: 2,
+            regarding: this.regardingWritingChallenger,
+        };
         return {
             challenge: 'arithmeic',
-            maze, arithmetic, clock
+            maze, arithmetic, clock, writing
         };
     }
 
@@ -103,11 +115,12 @@ class App extends React.Component<AppProps, State> {
     }
 
     private renderChallenger(): React.ReactNode {
-        const { challenge, maze, arithmetic, clock } = this.state;
+        const { challenge, maze, arithmetic, clock, writing } = this.state;
         switch (challenge) {
             case 'arithmeic': return <ArithmeticChallenger {...arithmetic} />;
             case 'clock': return <ClockChallenger {...clock} />;
-            case 'maze': return <MazeChallenger {...maze} />
+            case 'maze': return <MazeChallenger {...maze} />;
+            case 'writing': return <WritingChallenger {...writing} />
             default: return broke(challenge);
         }
     }
