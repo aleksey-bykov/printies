@@ -47,7 +47,9 @@ export class WritingChallenger extends React.Component<WritingChallengerProps> {
             <Columnizer
                 columns={columns}
                 stuff={times(lines, 1).map(index =>
-                    <div key={index} className="writing-line" style={styles}>{index}.</div>
+                    <div key={index} className="writing-line" style={styles}>
+                        <span className="writing-line-number">{index}.</span>
+                    </div>
                 )}
             />
         </div>;
