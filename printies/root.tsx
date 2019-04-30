@@ -91,7 +91,10 @@ class App extends React.Component<AppProps, State> {
             regarding: this.regardingClockChallenger,
         };
         const writing: WritingChallengerProps = {
-            columnCount: 2,
+            columns: 2,
+            size: 24,
+            lines: 10,
+            padding: 5,
             regarding: this.regardingWritingChallenger,
         };
         return {
