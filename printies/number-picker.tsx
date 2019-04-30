@@ -18,8 +18,8 @@ export function thusNumberPicker(label: string, min: number, max: number) {
 
         render() {
             const { value } = this.props;
-            return <div className="no-print">
-                {label}: {value} <input type="range" min={min} value={value} max={max} onChange={this.whenChanged} />
+            return <div className="number-picker no-print">
+                {label} <input type="range" min={min} value={value} max={max} onChange={this.whenChanged} /> {value}
             </div>;
         }
 
