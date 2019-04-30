@@ -8,7 +8,7 @@ import { $on, toStewardOf } from './stewarding';
 export type WritingChallengerConcern =
     | { about: 'columns'; columns: NumberPickerConcern; }
     | { about: 'size'; size: NumberPickerConcern; }
-    | { about: 'lines'; lines: NumberPickerConcern; }
+    | { about: 'slots'; slots: NumberPickerConcern; }
     | { about: 'padding'; padding: NumberPickerConcern; };
 
 export const inWritingChallengerProps = toStewardOf<WritingChallengerProps>();
@@ -16,20 +16,20 @@ export const inWritingChallengerProps = toStewardOf<WritingChallengerProps>();
 export interface WritingChallengerProps {
     columns: number;
     size: number;
-    lines: number;
+    slots: number;
     padding: number;
     regarding: Regarding<WritingChallengerConcern>;
 }
 
 const ColumnPicker = thusNumberPicker('Columns', 1, 10);
 const FontSizePicker = thusNumberPicker('Font size', 8, 72);
-const LinesPicker = thusNumberPicker('Lines', 2, 40);
-const PaddingPicker = thusNumberPicker('Padding', 0, 10);
+const SlotsPicker = thusNumberPicker('Slots', 2, 40);
+const PaddingPicker = thusNumberPicker('Padding', 0, 20);
 
 export class WritingChallenger extends React.Component<WritingChallengerProps> {
 
     render() {
-        const { columns, size, lines, padding } = this.props;
+        const { columns, size, slots, padding } = this.props;
         const verticalPadding = padding;
         const horizontalPadding = padding * 2;
         const styles: React.CSSProperties = {
@@ -42,11 +42,11 @@ export class WritingChallenger extends React.Component<WritingChallengerProps> {
         return <div>
             <ColumnPicker value={columns} regarding={this.regardingColumns} />
             <FontSizePicker value={size} regarding={this.regardingSize} />
-            <LinesPicker value={lines} regarding={this.regardingLines} />
+            <SlotsPicker value={slots} regarding={this.regardingLines} />
             <PaddingPicker value={padding} regarding={this.regardingPadding} />
             <Columnizer
                 columns={columns}
-                stuff={times(lines, 1).map(index =>
+                stuff={times(slots, 1).map(index =>
                     <div key={index} className="writing-line" style={styles}>
                         <span className="writing-line-number">{index}.</span>
                     </div>
@@ -63,8 +63,8 @@ export class WritingChallenger extends React.Component<WritingChallengerProps> {
         this.props.regarding({ about: 'size', size });
     }
 
-    private regardingLines = (lines: NumberPickerConcern) => {
-        this.props.regarding({ about: 'lines', lines });
+    private regardingLines = (slots: NumberPickerConcern) => {
+        this.props.regarding({ about: 'slots', slots });
     }
 
     private regardingPadding = (padding: NumberPickerConcern) => {
@@ -91,11 +91,11 @@ export function faceWritingChallengerConcern(
                 default: return broke(concern.size.about);
             }
         }
-        case 'lines': {
-            switch (concern.lines.about) {
+        case 'slots': {
+            switch (concern.slots.about) {
                 case 'be-changed-number-value':
-                    return inWritingChallengerProps.lines[$on](props, concern.lines.value);
-                default: return broke(concern.lines.about);
+                    return inWritingChallengerProps.slots[$on](props, concern.slots.value);
+                default: return broke(concern.slots.about);
             }
         }
         case 'padding': {

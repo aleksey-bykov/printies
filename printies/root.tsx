@@ -93,7 +93,7 @@ class App extends React.Component<AppProps, State> {
         const writing: WritingChallengerProps = {
             columns: 2,
             size: 24,
-            lines: 10,
+            slots: 10,
             padding: 5,
             regarding: this.regardingWritingChallenger,
         };
