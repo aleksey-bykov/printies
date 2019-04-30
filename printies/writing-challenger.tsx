@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { timesOff } from './arrays';
+import { times } from './arrays';
 import { Columnizer } from './columnizer';
 import { broke } from './core';
 import { NumberPickerConcern, thusNumberPicker } from './number-picker';
@@ -46,7 +46,7 @@ export class WritingChallenger extends React.Component<WritingChallengerProps> {
             <PaddingPicker value={padding} regarding={this.regardingPadding} />
             <Columnizer
                 columns={columns}
-                stuff={timesOff(lines, 1).map(index => <div
+                stuff={times(lines, 1).map(index => <div
                     key={index} className="writing-line" style={styles}
                 >{index}.</div>
                 )}

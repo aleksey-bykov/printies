@@ -1,12 +1,4 @@
-export function times(count: number): number[] {
-    const result: number[] = [];
-    for (let index = 0; index < count; index++) {
-        result.push(index);
-    }
-    return result;
-}
-
-export function timesOff(count: number, initial: number): number[] {
+export function times(count: number, initial = 0): number[] {
     const result: number[] = [];
     for (let index = 0; index < count; index++) {
         result.push(initial + index);

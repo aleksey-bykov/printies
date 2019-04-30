@@ -1,5 +1,5 @@
 import { AnySpace } from "./any-space";
-import { timesOff } from "./arrays";
+import { times } from "./arrays";
 import { fail, isDefined, isNull, isUndefined } from "./core";
 import { Randomizer } from "./random";
 
@@ -56,7 +56,7 @@ export class QuantifiedRangedMidSpace<C> {
     draw(): [number, C] {
         const { min, max, exhausted, random } = this;
         const size = max - min + 1;
-        let all = timesOff(size, min);
+        let all = times(size, min);
         if (isDefined(exhausted)) {
             all = all.filter(value => !exhausted.has(value));
         }
