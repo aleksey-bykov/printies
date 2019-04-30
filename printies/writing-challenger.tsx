@@ -46,9 +46,8 @@ export class WritingChallenger extends React.Component<WritingChallengerProps> {
             <PaddingPicker value={padding} regarding={this.regardingPadding} />
             <Columnizer
                 columns={columns}
-                stuff={times(lines, 1).map(index => <div
-                    key={index} className="writing-line" style={styles}
-                >{index}.</div>
+                stuff={times(lines, 1).map(index =>
+                    <div key={index} className="writing-line" style={styles}>{index}.</div>
                 )}
             />
         </div>;
